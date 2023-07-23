@@ -32,7 +32,7 @@ footer {
     align-items: center;
 }
 
-#amount input {
+input[name="amount"] {
     margin-top: 30vh;
     width: 50%;
     height: 50px;
