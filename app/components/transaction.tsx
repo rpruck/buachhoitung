@@ -1,6 +1,7 @@
 'use client'
 import { AnyRecord } from "dns"
 import { useState } from "react"
+import { DatabaseAccess } from "../services/DatabaseAccess"
 
 function TransactionHeader() {
 
@@ -50,6 +51,7 @@ export default function Transaction() {
     const [amount, setAmount] = useState(undefined)
     const [from, setFrom] = useState(undefined)
     const [to, setTo] = useState(undefined)
+    let db = new DatabaseAccess()
 
     let steps = {
         "amount": <Amount amount={amount} setAmount={setAmount} setStep={setStep} />
@@ -60,6 +62,7 @@ export default function Transaction() {
             <h1>Neue Transaktion</h1>
 
             {steps[step]}
+            {db.getAllAccounts()}
         </>
     )
 }
