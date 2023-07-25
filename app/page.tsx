@@ -2,9 +2,11 @@
 
 import Image from 'next/image'
 import styles from './page.module.css'
-import Transaction from './components/transaction'
+import Transaction from './components/newTransaction'
 import { useState } from 'react'
 import { NavBar } from './components/navbar'
+import Accounts from './components/accounts'
+import NewTransaction from './components/newTransaction'
 
 export default function Home() {
 
@@ -24,13 +26,13 @@ export default function Home() {
 
   let content
   if (state == 'home') {
-    content = <Transaction />
+    content = <NewTransaction />
   }
   else if (state == 'transactions') {
     content = null
   }
   else if (state == 'accounts') {
-    content = null
+    content = <Accounts />
   }
   else throw new Error("State not implemented! State is: " + state)
 
