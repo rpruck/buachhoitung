@@ -44,13 +44,14 @@ function StepDisplay() {
 
 }
 
-export default function Transaction() {
+export default function NewTransaction() {
     const [step, setStep] = useState("amount")
-    const [amount, setAmount] = useState(undefined)
+    const [amount, setAmount] = useState<number | null>(null)
     const [from, setFrom] = useState(undefined)
     const [to, setTo] = useState(undefined)
-    const [accounts, setAccounts] = useState({})
+    const [accounts, setAccounts] = useState<account[] | null>(null)
 
+    //useEffect prevents the DOM from rerendering after updating the state
     useEffect(() => {
         setupDB().then((res) => {
             if (res === false) throw new Error("Could not set up database")
@@ -62,7 +63,7 @@ export default function Transaction() {
     }, [])
 
     
-    let steps: any[] = {
+    let steps: { [key: string]: JSX.Element } = {
         "amount": <Amount amount={amount} setAmount={setAmount} setStep={setStep} />
     }
 
@@ -71,7 +72,7 @@ export default function Transaction() {
             <h1>Neue Transaktion</h1>
 
             {steps[step]}
-            {accounts[0] ? (
+            {accounts ? (
                 accounts[0].name
             ) : (
                 <h2>Data not loaded yet</h2>
