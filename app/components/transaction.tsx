@@ -1,7 +1,5 @@
-'use client'
-import { AnyRecord } from "dns"
-import { useState } from "react"
-import { DatabaseAccess } from "../services/DatabaseAccess"
+import { useState, useEffect, useRef } from "react"
+import { setupDB, getAllAccounts, account } from "../services/database"
 
 function TransactionHeader() {
 
@@ -51,9 +49,20 @@ export default function Transaction() {
     const [amount, setAmount] = useState(undefined)
     const [from, setFrom] = useState(undefined)
     const [to, setTo] = useState(undefined)
-    let db = new DatabaseAccess()
+    const [accounts, setAccounts] = useState({})
 
-    let steps = {
+    useEffect(() => {
+        setupDB().then((res) => {
+            if (res === false) throw new Error("Could not set up database")
+            console.log("Database: ", res)
+            getAllAccounts().then((res) => {
+                setAccounts(res)
+            })
+        })
+    }, [])
+
+    
+    let steps: any[] = {
         "amount": <Amount amount={amount} setAmount={setAmount} setStep={setStep} />
     }
 
@@ -62,7 +71,11 @@ export default function Transaction() {
             <h1>Neue Transaktion</h1>
 
             {steps[step]}
-            {db.getAllAccounts()}
+            {accounts[0] ? (
+                accounts[0].name
+            ) : (
+                <h2>Data not loaded yet</h2>
+            )}
         </>
     )
 }
