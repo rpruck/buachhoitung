@@ -1,36 +1,12 @@
 import { useState, useEffect } from "react"
 import { getAllAccounts, account, deleteAccount } from "../services/database"
 import Image from "next/image"
-import accounts from "../../public/accounts.svg"
-import edit from "../../public/edit.svg"
-import trash from "../../public/trash.svg"
 import plus from "../../public/plus.svg"
 import NewAccount from "./newAccount"
+import AccountWidget from "./accountWidget"
 
 function TODO() {
     return
-}
-
-function AccountWidget({ account }: { account: account }) {
-    function deleteSelf() {
-        deleteAccount(account)
-    }
-
-    return (
-        <div className="account-widget">
-            <div className="account-widget-id">
-                <span className="top-line">
-                    <Image src={accounts} alt={account.id} />
-                    <span>{account.id}</span>
-                </span>
-                <span className="bottom-line">{account.name}</span>
-            </div>
-            <div className="account-widget-actions">
-                <Image src={edit} alt="edit" onClick={TODO} />
-                <Image src={trash} alt="delete" onClick={deleteSelf} />
-            </div>
-        </div>
-    )
 }
 
 export default function Accounts() {
