@@ -28,6 +28,11 @@ export function setupDB() {
         request.onupgradeneeded = (event) => {
             const db = request.result
             const accountStore = db.createObjectStore("accounts", { keyPath: "id" })
+            accountStore.createIndex("from", "from", {unique: false})
+            accountStore.createIndex("to", "to", {unique: false})
+            accountStore.createIndex("date", "date", {unique: false})
+            accountStore.createIndex("synced", "synced", {unique: false})
+
             accountStore.put({ id: "000", name: "Default" })
 
             const transactionStore = db.createObjectStore("transactions", { keyPath: "id", autoIncrement: true })
