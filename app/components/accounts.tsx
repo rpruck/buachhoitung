@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getAllAccounts, account, deleteAccount } from "../services/database"
+import { getAllAccounts, account } from "../services/database"
 import Image from "next/image"
 import plus from "../../public/plus.svg"
 import NewAccount from "./newAccount"
