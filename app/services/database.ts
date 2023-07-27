@@ -108,3 +108,19 @@ export function deleteAccount(account: account) {
         }
     })
 }
+
+export function updateAccount(account: account) {
+    return new Promise((resolve) => {
+        let request = indexedDB.open(DB_NAME, VERSION)
+
+        request.onsuccess = () => {
+            const db = request.result
+            db
+                .transaction("accounts", "readwrite")
+                .objectStore("accounts")
+                .put(account).onsuccess = (event) => {
+                    resolve(event.target.result)
+                }
+        }
+    })
+}
