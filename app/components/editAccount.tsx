@@ -24,7 +24,7 @@ export default function EditAccount({ account, closeCallback }: { account: accou
     }
 
     return (
-        <div className="fill-screen">
+        <div className="fill-screen" onClick={closeCallback}>
             <div className="modal">
                 <h1>Konto bearbeiten</h1>
                 <form onSubmit={handleUpdateAccount}>
