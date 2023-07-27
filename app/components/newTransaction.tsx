@@ -4,7 +4,7 @@ import Image from "next/image"
 import accountssvg from "../../public/accounts.svg"
 import arrow from "../../public/arrow.svg"
 
-function TransactionHeader({ amount, from, to }: {amount: number, from: string, to: string}) {
+function TransactionHeader({ amount, from, to }: { amount: number | null, from: string | null, to: string | null }) {
     return (
         <div className="new-transaction-header">
             <span className="new-transaction-amount">{amount}</span>
@@ -49,7 +49,7 @@ function From({ accounts, setFrom, setStep, query, setQuery }:
     }
 
     const accountsList = [...accounts]
-        
+
     function handleFromChange(id: string) {
         setFrom(id)
         setStep("to")
@@ -69,7 +69,7 @@ function From({ accounts, setFrom, setStep, query, setQuery }:
                 <div className="account-widget" onClick={handleFromInput}>
                     <div className="account-widget-id">
                         <span className="top-line">
-                            <Image src={accountssvg} alt="account"/>
+                            <Image src={accountssvg} alt="account" />
                             <span>{account.id}</span>
                         </span>
                         <span className="bottom-line">{account.name}</span>
@@ -89,8 +89,8 @@ function From({ accounts, setFrom, setStep, query, setQuery }:
             />
             {accounts ? accountsList
                 .filter(containsQuery)
-                .map(account => (<AccountWidgetLite account={account} key={account.id}/>))
-            : (<></>)}
+                .map(account => (<AccountWidgetLite account={account} key={account.id} />))
+                : (<></>)}
         </>
     )
 }
@@ -103,7 +103,7 @@ function To({ accounts, setTo, setStep, query, setQuery }:
     }
 
     const accountsList = [...accounts]
-        
+
     function handleToChange(id: string) {
         setTo(id)
         setStep("info")
@@ -123,7 +123,7 @@ function To({ accounts, setTo, setStep, query, setQuery }:
                 <div className="account-widget" onClick={handleToInput}>
                     <div className="account-widget-id">
                         <span className="top-line">
-                            <Image src={accountssvg} alt="account"/>
+                            <Image src={accountssvg} alt="account" />
                             <span>{account.id}</span>
                         </span>
                         <span className="bottom-line">{account.name}</span>
@@ -143,8 +143,8 @@ function To({ accounts, setTo, setStep, query, setQuery }:
             />
             {accounts ? accountsList
                 .filter(containsQuery)
-                .map(account => (<AccountWidgetLite account={account} key={account.id}/>))
-            : (<></>)}
+                .map(account => (<AccountWidgetLite account={account} key={account.id} />))
+                : (<></>)}
         </>
     )
 }
@@ -186,6 +186,12 @@ export default function NewTransaction() {
     return (
         <>
             <h1>Neue Transaktion</h1>
+
+            {step !== "amount" ?
+                (<TransactionHeader amount={amount} from={from} to={to} />)
+                :
+                <></>
+            }
 
             {steps[step]}
             {accounts ? (
