@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { NavBar } from './components/navbar'
 import Accounts from './components/accounts'
 import NewTransaction from './components/newTransaction'
+import Transactions from './components/transactions'
 
 export default function Home() {
 
@@ -29,7 +30,7 @@ export default function Home() {
     content = <NewTransaction />
   }
   else if (state == 'transactions') {
-    content = null
+    content = <Transactions />
   }
   else if (state == 'accounts') {
     content = <Accounts />
