@@ -26,7 +26,7 @@ export default function NewAccount({ closeCallback }: { closeCallback: () => voi
     }
 
     return (
-        <div className="fill-screen" onClick={closeCallback}>
+        <div className="fill-screen">
             <div className="modal">
                 <h1>Konto erstellen</h1>
                 <form onSubmit={handleAddAccount}>
