@@ -20,6 +20,9 @@ export default function NewAccount({ closeCallback }: { closeCallback: () => voi
             name: description
         }
         addAccount(account)
+        setName("")
+        setDescription("")
+        closeCallback()
     }
 
     return (
