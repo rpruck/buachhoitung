@@ -11,7 +11,8 @@ export interface transaction {
     amount: number
     from: string
     to: string
-    date: Date
+    //date formatted as YYYY-MM-DD string
+    date: string
     note?: string
     synced: boolean
 }
@@ -35,8 +36,10 @@ export function setupDB() {
 
             accountStore.put({ id: "000", name: "Default" })
 
+            const date = new Date(Date.now())
+
             const transactionStore = db.createObjectStore("transactions", { keyPath: "id", autoIncrement: true })
-            transactionStore.put({ id: 1, date: Date.now(), note: "Test" })
+            transactionStore.put({ id: 1, amount: 69, from: "000", to: "001", date: date.toISOString().split('T')[0], note: "Test", synced: false })
         }
 
         request.onsuccess = (event) => {
