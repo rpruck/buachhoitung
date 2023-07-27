@@ -127,3 +127,51 @@ export function updateAccount(account: account) {
         }
     })
 }
+
+export function getAllTransactions(): Promise<Array<transaction>> {
+    return new Promise((resolve) => {
+        let request = indexedDB.open(DB_NAME, VERSION)
+
+        request.onsuccess = () => {
+            const db = request.result
+            db
+                .transaction("transactions")
+                .objectStore("transactions")
+                .getAll().onsuccess = (event) => {
+                    resolve(event.target.result)
+                }
+        }
+    })
+}
+
+export function deleteTransaction(transaction: transaction) {
+    return new Promise((resolve) => {
+        let request = indexedDB.open(DB_NAME, VERSION)
+
+        request.onsuccess = () => {
+            const db = request.result
+            db
+                .transaction("transactions", "readwrite")
+                .objectStore("transactions")
+                .delete(transaction.id!).onsuccess = (event) => {
+                    resolve(event.target.result)
+                }
+        }
+    }) 
+}
+
+export function updateTransaction(transaction: transaction) {
+    return new Promise((resolve) => {
+        let request = indexedDB.open(DB_NAME, VERSION)
+
+        request.onsuccess = () => {
+            const db = request.result
+            db
+                .transaction("transactions", "readwrite")
+                .objectStore("transactions")
+                .put(transaction).onsuccess = (event) => {
+                    resolve(event.target.result)
+                }
+        }
+    })
+}
