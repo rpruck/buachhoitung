@@ -5,10 +5,6 @@ import plus from "../../public/plus.svg"
 import NewAccount from "./newAccount"
 import AccountWidget from "./accountWidget"
 
-function TODO() {
-    return
-}
-
 export default function Accounts() {
     const [accounts, setAccounts] = useState<account[] | null>(null)
     const [newAccountModal, setNewAccountModal] = useState<boolean>(false)
