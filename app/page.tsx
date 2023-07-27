@@ -1,8 +1,5 @@
 'use client'
 
-import Image from 'next/image'
-import styles from './page.module.css'
-import Transaction from './components/newTransaction'
 import { useState } from 'react'
 import { NavBar } from './components/navbar'
 import Accounts from './components/accounts'
@@ -39,8 +36,6 @@ export default function Home() {
 
   return (
     <>
-      <h1>Hello, World!</h1>
-      <span>{state}</span>
       {content}
 
       <NavBar navHome={navigateToHome} navAccounts={navigateToAccounts} navTransactions={navigateToTransactions} />
