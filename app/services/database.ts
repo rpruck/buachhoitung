@@ -6,6 +6,16 @@ export interface account {
     name: string
 }
 
+export interface transaction {
+    id?: number
+    amount: number
+    from: string
+    to: string
+    date: Date
+    note?: string
+    synced: boolean
+}
+
 export function setupDB() {
     return new Promise((resolve) => {
         let request = indexedDB.open(DB_NAME, VERSION)
@@ -44,4 +54,36 @@ export function getAllAccounts(): Promise<Array<account>> {
                 }
         }
     })
+}
+
+export function addTransaction(transaction: transaction) {
+    return new Promise((resolve) => {
+        let request = indexedDB.open(DB_NAME, VERSION)
+
+        request.onsuccess = () => {
+            const db = request.result
+            db
+                .transaction("transactions", "readwrite")
+                .objectStore("transactions")
+                .add(transaction).onsuccess = (event) => {
+                    resolve(event.target.result)
+                }
+        }
+    }) 
+}
+
+export function addAccount(account: account) {
+    return new Promise((resolve) => {
+        let request = indexedDB.open(DB_NAME, VERSION)
+
+        request.onsuccess = () => {
+            const db = request.result
+            db
+                .transaction("accounts", "readwrite")
+                .objectStore("accounts")
+                .add(account).onsuccess = (event) => {
+                    resolve(event.target.result)
+                }
+        }
+    }) 
 }

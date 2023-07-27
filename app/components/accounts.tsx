@@ -5,6 +5,7 @@ import accounts from "../../public/accounts.svg"
 import edit from "../../public/edit.svg"
 import trash from "../../public/trash.svg"
 import plus from "../../public/plus.svg"
+import NewAccount from "./newAccount"
 
 function TODO() {
     return
@@ -30,18 +31,27 @@ function AccountWidget({ account }: { account: account }) {
 
 export default function Accounts() {
     const [accounts, setAccounts] = useState<account[] | null>(null)
+    const [newAccountModal, setNewAccountModal] = useState<boolean>(false)
+
+    function openModal() {
+        setNewAccountModal(true)
+    }
+
+    function closeModal() {
+        setNewAccountModal(false)
+    }
 
     useEffect(() => {
         getAllAccounts().then((res) => {
             setAccounts(res)
         })
-    }, [])
+    }, [accounts])
 
     return (
         <>
             <div className="header">
                 <h1>Konten</h1>
-                <Image src={plus} alt="add account" onClick={TODO} />
+                <Image src={plus} alt="add account" onClick={openModal} />
             </div>
 
             <div className="accounts">
@@ -51,6 +61,12 @@ export default function Accounts() {
                     (<span>Loading</span>)
                 }
             </div>
+        
+            {newAccountModal ?
+                (<NewAccount closeCallback={closeModal} />)
+                :
+                (<></>)
+            }
         </>
     )
 
