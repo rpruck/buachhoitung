@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getAllAccounts, account } from "../services/database"
+import { getAllAccounts, account, deleteAccount } from "../services/database"
 import Image from "next/image"
 import accounts from "../../public/accounts.svg"
 import edit from "../../public/edit.svg"
@@ -12,6 +12,10 @@ function TODO() {
 }
 
 function AccountWidget({ account }: { account: account }) {
+    function deleteSelf() {
+        deleteAccount(account)
+    }
+
     return (
         <div className="account-widget">
             <div className="account-widget-id">
@@ -23,7 +27,7 @@ function AccountWidget({ account }: { account: account }) {
             </div>
             <div className="account-widget-actions">
                 <Image src={edit} alt="edit" onClick={TODO} />
-                <Image src={trash} alt="delete" onClick={TODO} />
+                <Image src={trash} alt="delete" onClick={deleteSelf} />
             </div>
         </div>
     )
