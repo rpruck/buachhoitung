@@ -40,7 +40,7 @@ function From({ accounts, setFrom, setStep, query, setQuery }:
     // }, [accounts])
 
     function containsQuery(account: account) {
-        return account.id.includes(query) || account.name.includes(query)
+        return account.id.includes(query) || account.name.toLowerCase().includes(query.toLowerCase())
     }
 
     const accountsList = [...accounts]
