@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { setupDB, getAllAccounts, account } from "../services/database"
+import { setupDB, getAllAccounts, account, addTransaction, transaction } from "../services/database"
 import Image from "next/image"
 import accountssvg from "../../public/accounts.svg"
 import arrow from "../../public/arrow.svg"
@@ -149,8 +149,47 @@ function To({ accounts, setTo, setStep, query, setQuery }:
     )
 }
 
-function TransactionInfo() {
+function TransactionInfo({ amount, from, to }: { amount: number | null, from: string | null, to: string | null }) {
+    const now = new Date(Date.now())
+    const [note, setNote] = useState("")
+    const [date, setDate] = useState(now.toISOString().split('T')[0])
 
+    function handleNoteChange(event: any) {
+        setNote(event.target.value)
+    }
+
+    function handleDateChange(event: any) {
+        setDate(event.target.value)
+    }
+
+    function handleAddTransaction(event: any) {
+        event.preventDefault()
+        const transaction: transaction = {
+            amount: amount!,
+            from: from!,
+            to: to!,
+            date: date,
+            note: note,
+            synced: false
+        }
+        addTransaction(transaction).then(() => {
+            location.reload()
+        })
+    }
+
+    return (
+        <form onSubmit={handleAddTransaction}>
+            <label>
+                Notiz hinzufügen
+                <input type="text" value={note} onChange={handleNoteChange}></input>
+            </label>
+            <label>
+                Datum wählen
+                <input type="date" value={date} onChange={handleDateChange}></input>
+            </label>
+            <button type="submit" className="primary">Buchen</button>
+        </form>
+    )
 }
 
 function StepDisplay() {
@@ -178,9 +217,10 @@ export default function NewTransaction() {
 
 
     let steps: { [key: string]: JSX.Element } = {
-        "amount": <Amount amount={amount} setAmount={setAmount} setStep={setStep} />,
-        "from": <From accounts={accounts} setFrom={setFrom} setStep={setStep} query={query} setQuery={setQuery} />,
-        "to": <To accounts={accounts} setTo={setTo} setStep={setStep} query={query} setQuery={setQuery} />
+        "amount": <Amount amount={amount!} setAmount={setAmount} setStep={setStep} />,
+        "from": <From accounts={accounts!} setFrom={setFrom} setStep={setStep} query={query} setQuery={setQuery} />,
+        "to": <To accounts={accounts!} setTo={setTo} setStep={setStep} query={query} setQuery={setQuery} />,
+        "info": <TransactionInfo amount={amount} from={from} to={to} />
     }
 
     return (
