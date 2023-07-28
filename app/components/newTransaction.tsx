@@ -27,7 +27,7 @@ function Amount({ amount, setAmount, setStep }: { amount: number | undefined, se
     }
 
     return (
-        <>
+        <div className="amount-wrapper">
             <input
                 name="amount"
                 type="number"
@@ -35,9 +35,10 @@ function Amount({ amount, setAmount, setStep }: { amount: number | undefined, se
                 placeholder="€"
                 value={amount || ''}
                 onChange={handleAmountChange}
+                autoFocus
             />
-            <button className="primary" onClick={handleStepChange}>Weiter</button>
-        </>
+            <button className="primary" onClick={handleStepChange}>Weiter <Image src={arrow} alt="weiter" /></button>
+        </div>
     )
 }
 
@@ -234,11 +235,7 @@ export default function NewTransaction() {
             }
 
             {steps[step]}
-            {accounts ? (
-                accounts[0].name
-            ) : (
-                <h2>Data not loaded yet</h2>
-            )}
+            
         </>
     )
 }
