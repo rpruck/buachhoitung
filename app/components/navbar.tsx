@@ -15,8 +15,6 @@ export function NavBar({ navHome, navTransactions, navAccounts }
                     : { navHome:() => void, navTransactions:() => void, navAccounts:() => void }) {
     return (
         <footer>
-            <div className="step-display"></div>
-
             <div className="nav-bar">
                 <NavItem name="home" icon={home} onClick={navHome} />
                 <NavItem name="transactions" icon={transactions} onClick={navTransactions} />
