@@ -1,11 +1,11 @@
 body {
     font-family: 'SF Compact', 'Arial';
-    padding: 15px;
+    padding: 20px;
     box-sizing: border-box;
 }
 
 footer {
-    position: absolute;
+    position: fixed;
     box-sizing: border-box;
     height: 60px;
     width: 100%;
@@ -16,6 +16,7 @@ footer {
     justify-content: space-evenly;
     padding: 0;
     margin: 0;
+    background-color: white;
 }
 
 .nav-bar {
@@ -30,10 +31,15 @@ footer {
     width: 70px;
 }
 
-.tab {
+.content-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 16px;
+}
+
+h1 {
+    display: inline-block;
+    margin-bottom: 0;
 }
 
 .amount-wrapper {
@@ -45,7 +51,7 @@ footer {
 
 input[name="amount"] {
     margin-top: 10vh;
-    width: 50%;
+    width: 150px;
     height: 50px;
     font-size: 40px;
     border-style: none;
@@ -75,4 +81,100 @@ input[type=number] {
     box-shadow: 0px 4px 12px 0px rgba(0, 102, 255, 0.12);
     color: white;
     font-size: 16px;
+}
+
+.new-transaction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.new-transaction-from-to {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-transaction-amount,
+.new-transaction-from-to span {
+    border-radius: 4px;
+    border: 1px solid #BFBFBF;
+    padding: 2px 6px;
+    color: #BFBFBF;
+    height: 22px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-transaction-amount.active {
+    border: 1px solid #0B8400;
+    color: #0B8400;
+}
+
+.new-transaction-from-to span.active {
+    color: #0066FF;
+}
+
+.step-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.query-wrapper {
+    height: 28px;
+    border-radius: 8px;
+    border: 1px solid #BFBFBF;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+}
+
+.query-wrapper input {
+    border: 0;
+    outline: 0;
+    font-size: 16px;
+}
+
+.accounts-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: 12px;
+    flex-basis: 30%;
+    max-height: 60vh;
+    overflow: visible;
+    margin-bottom: 20vh;
+}
+
+.accounts-list .account-widget {
+    height: 60px;
+    border-radius: 8px;
+    border: 1px solid #BFBFBF;
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.account-widget .top-line {
+    display: flex;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.account-widget .bottom-line {
+    padding: 3px;
+}
+
+.account-widget.active {
+    border-radius: 8px;
+    border: 1px solid #06F;
+    box-shadow: 0px 4px 12px 0px rgba(0, 102, 255, 0.81);
+    color: #0066FF;
 }

@@ -1,17 +1,25 @@
 import { useState, useEffect } from "react"
 import { setupDB, getAllAccounts, account, addTransaction, transaction } from "../services/database"
 import Image from "next/image"
-import accountssvg from "../../public/accounts.svg"
+import accountsSvg from "../../public/accounts.svg"
 import arrow from "../../public/arrow.svg"
+import arrowDark from "../../public/arrow-dark.svg"
+import search from "../../public/search.svg"
+import accountsActive from "../../public/accounts-active.svg"
 
 function TransactionHeader({ amount, from, to }: { amount: number | null, from: string | null, to: string | null }) {
+    function formatAmount(amount: number) {
+        if (!amount) return 0
+        return Number.parseFloat(amount).toFixed(2).toString().replace(".", ",")
+    }
+
     return (
         <div className="new-transaction-header">
-            <span className="new-transaction-amount">{amount}</span>
+            <span className={`new-transaction-amount ${amount ? "active" : ""}`}>€{formatAmount(amount!)}</span>
             <span className="new-transaction-from-to">
-                <span className="new-transaction-from">{from}</span>
-                <Image src={arrow} alt="to" />
-                <span className="new-transaction-to">{to}</span>
+                <span className={`new-transaction-from ${from ? "active" : ""}`}>{from ? from : "Konto 1"}</span>
+                <Image src={arrowDark} alt="to" />
+                <span className={`new-transaction-to ${to ? "active" : ""}`}>{to ? to : "Konto 2"}</span>
             </span>
         </div>
     )
@@ -52,6 +60,7 @@ function From({ accounts, setFrom, setStep, query, setQuery }:
     const accountsList = [...accounts]
 
     function handleFromChange(id: string) {
+        setQuery("")
         setFrom(id)
         setStep("to")
     }
@@ -68,36 +77,39 @@ function From({ accounts, setFrom, setStep, query, setQuery }:
         return (
             <>
                 <div className="account-widget" onClick={handleFromInput}>
-                    <div className="account-widget-id">
                         <span className="top-line">
-                            <Image src={accountssvg} alt="account" />
+                            <Image src={accountsSvg} alt="account" />
                             <span>{account.id}</span>
                         </span>
                         <span className="bottom-line">{account.name}</span>
-                    </div>
                 </div>
             </>
         )
     }
 
     return (
-        <>
-            <input
-                name="query"
-                type="text"
-                value={query}
-                onChange={handleQueryChange}
-            />
-            {accounts ? accountsList
-                .filter(containsQuery)
-                .map(account => (<AccountWidgetLite account={account} key={account.id} />))
-                : (<></>)}
-        </>
+        <div className="step-wrapper">
+            <div className="query-wrapper">
+                <Image src={search} alt="search" />
+                <input
+                    name="query"
+                    type="text"
+                    value={query}
+                    onChange={handleQueryChange}
+                />
+            </div>
+            <div className="accounts-list">
+                {accounts ? accountsList
+                    .filter(containsQuery)
+                    .map(account => (<AccountWidgetLite account={account} key={account.id} />))
+                    : (<></>)}
+            </div>
+        </div>
     )
 }
 
-function To({ accounts, setTo, setStep, query, setQuery }:
-    { accounts: account[], setTo: (e: any) => void, setStep: (e: any) => void, query: string, setQuery: (e: any) => void }) {
+function To({ accounts, from, setTo, setStep, query, setQuery }:
+    { accounts: account[], from: string, setTo: (e: any) => void, setStep: (e: any) => void, query: string, setQuery: (e: any) => void }) {
 
     function containsQuery(account: account) {
         return account.id.includes(query) || account.name.toLowerCase().includes(query.toLowerCase())
@@ -114,39 +126,44 @@ function To({ accounts, setTo, setStep, query, setQuery }:
         setQuery(event.target.value)
     }
 
-    function AccountWidgetLite({ account }: { account: account }) {
+    function AccountWidgetLite({ account, isActive }: { account: account, isActive: boolean }) {
         function handleToInput() {
             handleToChange(account.id)
         }
 
+        const svg = isActive ? accountsActive : accountsSvg
+
         return (
             <>
-                <div className="account-widget" onClick={handleToInput}>
-                    <div className="account-widget-id">
-                        <span className="top-line">
-                            <Image src={accountssvg} alt="account" />
-                            <span>{account.id}</span>
-                        </span>
-                        <span className="bottom-line">{account.name}</span>
-                    </div>
+                <div className={`account-widget ${isActive ? "active" : ""}`} onClick={handleToInput}>
+                    <span className="top-line">
+                        <Image src={svg} alt="account" />
+                        <span>{account.id}</span>
+                    </span>
+                    <span className="bottom-line">{account.name}</span>
                 </div>
             </>
         )
     }
 
     return (
-        <>
-            <input
-                name="query"
-                type="text"
-                value={query}
-                onChange={handleQueryChange}
-            />
-            {accounts ? accountsList
-                .filter(containsQuery)
-                .map(account => (<AccountWidgetLite account={account} key={account.id} />))
-                : (<></>)}
-        </>
+        <div className="step-wrapper">
+            <div className="query-wrapper">
+                <Image src={search} alt="search" />
+                <input
+                    name="query"
+                    type="text"
+                    value={query}
+                    onChange={handleQueryChange}
+                />
+            </div>
+            <div className="accounts-list">
+                {accounts ? accountsList
+                    .filter(containsQuery)
+                    .map(account => (<AccountWidgetLite account={account} isActive={account.id === from} key={account.id} />))
+                    : (<></>)}
+            </div>
+        </div>
     )
 }
 
@@ -200,8 +217,8 @@ function StepDisplay() {
 export default function NewTransaction() {
     const [step, setStep] = useState("amount")
     const [amount, setAmount] = useState<number | null>(null)
-    const [from, setFrom] = useState<string | null>("Konto 1")
-    const [to, setTo] = useState<string | null>("Konto 2")
+    const [from, setFrom] = useState<string | null>(null)
+    const [to, setTo] = useState<string | null>(null)
     const [accounts, setAccounts] = useState<account[] | null>(null)
     const [query, setQuery] = useState<string>("")
 
@@ -220,12 +237,12 @@ export default function NewTransaction() {
     let steps: { [key: string]: JSX.Element } = {
         "amount": <Amount amount={amount!} setAmount={setAmount} setStep={setStep} />,
         "from": <From accounts={accounts!} setFrom={setFrom} setStep={setStep} query={query} setQuery={setQuery} />,
-        "to": <To accounts={accounts!} setTo={setTo} setStep={setStep} query={query} setQuery={setQuery} />,
+        "to": <To accounts={accounts!} from={from!} setTo={setTo} setStep={setStep} query={query} setQuery={setQuery} />,
         "info": <TransactionInfo amount={amount} from={from} to={to} />
     }
 
     return (
-        <>
+        <div className="content-wrapper">
             <h1>Neue Transaktion</h1>
 
             {step !== "amount" ?
@@ -235,7 +252,7 @@ export default function NewTransaction() {
             }
 
             {steps[step]}
-            
-        </>
+
+        </div>
     )
 }
