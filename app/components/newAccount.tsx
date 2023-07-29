@@ -30,16 +30,18 @@ export default function NewAccount({ closeCallback }: { closeCallback: () => voi
             <div className="modal">
                 <h1>Konto erstellen</h1>
                 <form onSubmit={handleAddAccount}>
-                    <label>
+                    <label htmlFor="name">
                         Name
-                        <input type="text" value={name} onChange={handleNameChange}></input>
                     </label>
-                    <label>
+                    <input type="text" name="name" value={name} onChange={handleNameChange} />
+                    <label htmlFor="description">
                         Beschreibung
-                        <input type="text" value={description} onChange={handleDescriptionChange}></input>
                     </label>
-                    <button type="submit">Speichern</button>
-                    <button className="abort" onClick={closeCallback}>Abbrechen</button>
+                    <input type="text" name="description" value={description} onChange={handleDescriptionChange} />
+                    <span className="buttons">
+                        <button className="primary" type="submit">Speichern</button>
+                        <button className="abort" onClick={closeCallback}>Abbrechen</button>
+                    </span>
                 </form>
             </div>
         </div>
