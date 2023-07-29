@@ -196,15 +196,15 @@ function TransactionInfo({ amount, from, to }: { amount: number | null, from: st
     }
 
     return (
-        <form onSubmit={handleAddTransaction}>
-            <label>
+        <form className="transaction-info" onSubmit={handleAddTransaction}>
+            <label htmlFor="note">
                 Notiz hinzufügen
-                <input type="text" value={note} onChange={handleNoteChange}></input>
             </label>
-            <label>
+            <input type="text" value={note} name="note" onChange={handleNoteChange} />
+            <label htmlFor="date">
                 Datum wählen
-                <input type="date" value={date} onChange={handleDateChange}></input>
             </label>
+            <input type="date" name="date" value={date} onChange={handleDateChange} />
             <button type="submit" className="primary">Buchen</button>
         </form>
     )
