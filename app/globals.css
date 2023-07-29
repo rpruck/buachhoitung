@@ -217,10 +217,46 @@ input[type=number] {
     align-items: baseline;
 }
 
+.filter-wrapper {
+    margin-top: 20px;
+    display: flex;
+    gap: 8px;
+}
+
+.filter-wrapper .query-wrapper {
+    width: 50vw;
+    height: 26px;
+}
+
+.filter-wrapper .query-wrapper input {
+    width: 85%;
+}
+
+.filter-wrapper button {
+    height: 28px;
+    border-radius: 8px;
+    border: 1px solid #BFBFBF;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    background-color: white;
+    color: #BFBFBF;
+}
+
+.filter-wrapper .old, .filter-wrapper .unsynced {
+    border: 1px solid #d55c00; 
+    color: #d55c00;
+}
+
+.filter-wrapper .new, .filter-wrapper .synced {
+    border: 1px solid #0066FF; 
+    color: #0066FF;
+}
+
 .transactions-list {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 12px;
     gap: 8px;
     margin-bottom: 10vh;
 }
