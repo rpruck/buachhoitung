@@ -171,6 +171,8 @@ input[type=number] {
 
 .account-widget .bottom-line {
     padding: 3px;
+    color: #707070;
+    font-weight: 300;
 }
 
 .account-widget.active {
