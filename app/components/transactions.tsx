@@ -8,7 +8,7 @@ import search from "../../public/search.svg"
 export default function Transactions() {
     const [transactions, setTransactions] = useState<transaction[] | null>(null)
     const [query, setQuery] = useState<string>("")
-    const [dateOrder, setDateOrder] = useState<string>("none")
+    const [dateOrder, setDateOrder] = useState<string>("new")
     const [syncFilter, setSyncFilter] = useState<string>("none")
 
     useEffect(() => {
