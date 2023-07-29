@@ -152,7 +152,7 @@ input[type=number] {
 }
 
 .accounts-list .account-widget {
-    height: 60px;
+    min-height: 60px;
     border-radius: 8px;
     border: 1px solid #BFBFBF;
     padding: 7px;
@@ -166,6 +166,7 @@ input[type=number] {
     display: flex;
     gap: 8px;
     font-weight: 500;
+    align-items: center;
 }
 
 .account-widget .bottom-line {
@@ -193,6 +194,7 @@ input[type=number] {
 }
 
 .transaction-info input {
+    font-size: 16px;
     border-radius: 8px;
     border: 1px solid #BFBFBF;
     padding: 5px;
@@ -378,4 +380,56 @@ input[type=number] {
     box-shadow: 0px 4px 12px 0px rgba(208, 0, 0, 0.12); 
     color: white;
     font-size: 16px;
+}
+
+.accounts {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: 12px;
+    flex-basis: 50%;
+    max-height: 60vh;
+    overflow: visible;
+    margin-bottom: 20vh;
+    margin-top: 20px;
+}
+
+.accounts .account-widget {
+    min-height: 60px;
+    border-radius: 8px;
+    border: 1px solid #BFBFBF;
+    padding: 7px;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.accounts .account-widget-id {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.accounts .account-widget .top-line {
+    display: flex;
+    gap: 8px;
+    font-weight: 500;
+    align-items: center;
+}
+
+.accounts .account-widget .bottom-line {
+    color: #707070;
+    font-weight: 300;
+}
+
+.accounts .account-widget-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.accounts .account-widget-actions img {
+    height: 24px;
+    width: 24px;
+    padding: 2px;
 }

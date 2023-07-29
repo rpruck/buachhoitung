@@ -23,21 +23,27 @@ export default function EditAccount({ account, closeCallback }: { account: accou
         closeCallback()
     }
 
+    function handleOutsideTap(event) {
+        if (!event.target.closest(".modal")) closeCallback()
+    }
+
     return (
-        <div className="fill-screen">
+        <div className="fill-screen" onClick={handleOutsideTap}>
             <div className="modal">
                 <h1>Konto bearbeiten</h1>
                 <form onSubmit={handleUpdateAccount}>
-                    <label>
+                    <label htmlFor="name">
                         Name
-                        <input type="text" value={name} onChange={handleNameChange}></input>
                     </label>
+                    <input type="text" name="name" value={name} onChange={handleNameChange} />
                     <label>
                         Beschreibung
-                        <input type="text" value={description} onChange={handleDescriptionChange}></input>
                     </label>
-                    <button type="submit">Speichern</button>
-                    <button className="abort" onClick={closeCallback}>Abbrechen</button>
+                    <input type="text" value={description} onChange={handleDescriptionChange} />
+                    <span className="buttons">
+                        <button className="primary" type="submit">Speichern</button>
+                        <button className="abort" onClick={closeCallback}>Abbrechen</button>
+                    </span>
                 </form>
             </div>
         </div>
