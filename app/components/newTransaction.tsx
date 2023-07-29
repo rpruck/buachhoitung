@@ -6,6 +6,7 @@ import arrow from "../../public/arrow.svg"
 import arrowDark from "../../public/arrow-dark.svg"
 import search from "../../public/search.svg"
 import accountsActive from "../../public/accounts-active.svg"
+import refresh from "../../public/refresh.svg"
 
 function TransactionHeader({ amount, from, to }: { amount: number | null, from: string | null, to: string | null }) {
     function formatAmount(amount: number) {
@@ -77,11 +78,11 @@ function From({ accounts, setFrom, setStep, query, setQuery }:
         return (
             <>
                 <div className="account-widget" onClick={handleFromInput}>
-                        <span className="top-line">
-                            <Image src={accountsSvg} alt="account" />
-                            <span>{account.id}</span>
-                        </span>
-                        <span className="bottom-line">{account.name}</span>
+                    <span className="top-line">
+                        <Image src={accountsSvg} alt="account" />
+                        <span>{account.id}</span>
+                    </span>
+                    <span className="bottom-line">{account.name}</span>
                 </div>
             </>
         )
@@ -222,6 +223,10 @@ export default function NewTransaction() {
     const [accounts, setAccounts] = useState<account[] | null>(null)
     const [query, setQuery] = useState<string>("")
 
+    function reset() {
+        location.reload()
+    }
+
     //useEffect prevents the DOM from rerendering after updating the state
     useEffect(() => {
         setupDB().then((res) => {
@@ -243,7 +248,10 @@ export default function NewTransaction() {
 
     return (
         <div className="content-wrapper">
-            <h1>Neue Transaktion</h1>
+            <div className="header">
+                <h1>Neue Transaktion</h1>
+                <Image src={refresh} alt="add account" onClick={reset} />
+            </div>
 
             {step !== "amount" ?
                 (<TransactionHeader amount={amount} from={from} to={to} />)
