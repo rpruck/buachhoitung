@@ -218,6 +218,7 @@ input[type=number] {
     flex-direction: column;
     margin-top: 20px;
     gap: 8px;
+    margin-bottom: 10vh;
 }
 
 .transaction-widget {
@@ -226,7 +227,7 @@ input[type=number] {
 
 .transaction-box {
     border-radius: 8px;
-    border: 1px solid #EBEBEB;
+    border: 1px solid #0066ff96;
     padding: 8px;
     width: 280px;
     display: flex;
@@ -270,6 +271,10 @@ input[type=number] {
     color:#0066FF;
 }
 
+.synced {
+    border: 1px solid #EBEBEB; 
+}
+
 .no-note {
     color: #BFBFBF;
 }
@@ -284,4 +289,93 @@ input[type=number] {
 .transaction-actions img {
     height: 24px;
     width: 24px;
+}
+
+.fill-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0000003d;
+    backdrop-filter: blur(2px);
+    z-index: 3;
+}
+
+.modal {
+    margin: 30px;
+    padding: 20px;
+    background-color: white;
+    height: calc(100vh - 100px);
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.modal form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal label {
+    color: #707070;
+    margin-left: 8px;
+}
+
+.modal > form > input {
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #BFBFBF;
+    padding: 5px;
+    background-color: #f6f6f6;
+    margin-bottom: 12px;
+    margin-top: 4px;
+    padding: 8px;
+}
+
+.modal .from-to {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.modal .selection {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.modal .selection select {
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #BFBFBF;
+    background-color: #f6f6f6;
+    min-width: 28vw;
+    margin-top: 4px;
+}
+
+.modal img {
+    margin-bottom: 18px;
+}
+
+.modal .buttons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.abort {
+    display: inline-flex;
+    padding: 8px 12px 8px 15px;
+    justify-content: center;
+    align-items: center;
+    gap: 27px;
+    width: 128px;
+    border-radius: 8px;
+    background: #D00000;
+    box-shadow: 0px 4px 12px 0px rgba(208, 0, 0, 0.12); 
+    color: white;
+    font-size: 16px;
 }

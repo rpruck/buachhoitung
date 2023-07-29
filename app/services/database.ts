@@ -39,7 +39,7 @@ export function setupDB() {
             const date = new Date(Date.now())
 
             const transactionStore = db.createObjectStore("transactions", { keyPath: "id", autoIncrement: true })
-            transactionStore.put({ id: 1, amount: 69, from: "000", to: "001", date: date.toISOString().split('T')[0], note: "Test", synced: false })
+            transactionStore.put({ id: 1, amount: 69, from: "000", to: "001", date: date.toISOString().split('T')[0], note: "Test", synced: true })
         }
 
         request.onsuccess = (event) => {

@@ -43,7 +43,7 @@ export default function TransactionWidget({ transaction }: { transaction: transa
 
     return (
         <div className="transaction-widget">
-            <span className="transaction-box">
+            <span className={`transaction-box ${transaction.synced ? "synced" : ""}`}>
                 <span className="top-line">
                     <span className="transaction-details">
                         <span className="amount">€{formatAmount(transaction.amount)}</span>

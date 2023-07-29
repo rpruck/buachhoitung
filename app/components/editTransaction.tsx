@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { account, transaction, updateTransaction, getAllAccounts } from "../services/database"
 import Image from "next/image"
-import arrow from "../../public/arrow.svg"
+import arrowDark from "../../public/arrow-dark.svg"
 
 export default function EditTransaction({ transaction, closeCallback }: { transaction: transaction, closeCallback: () => void }) {
     const [amount, setAmount] = useState(transaction.amount)
@@ -46,6 +46,10 @@ export default function EditTransaction({ transaction, closeCallback }: { transa
         closeCallback()
     }
 
+    function handleOutsideTap(event) {
+        if (!event.target.closest(".modal")) closeCallback()
+    }
+
     useEffect(() => {
         getAllAccounts().then((res) => {
             setAccounts(res)
@@ -57,41 +61,49 @@ export default function EditTransaction({ transaction, closeCallback }: { transa
     }
 
     return (
-        <div className="fill-screen">
+        <div className="fill-screen" onClick={handleOutsideTap}>
             <div className="modal">
                 <h1>Transaktion bearbeiten</h1>
                 <form onSubmit={handleUpdateTransaction}>
-                    <label>
+                    <label htmlFor="edit-amount">
                         Betrag
-                        <input type="number" inputMode="decimal" value={amount} onChange={handleAmountChange}></input>
                     </label>
+                    <input type="number" name="edit-amount" inputMode="decimal" value={amount} onChange={handleAmountChange} />
                     <label>
                         Notiz
-                        <input type="text" value={note} onChange={handleNoteChange}></input>
                     </label>
+                    <input type="text" value={note} onChange={handleNoteChange} />
 
                     <span className="from-to">
-                        <label>
-                            Soll
-                            <select value={from} onChange={handleFromChange}>
+                        <span className="selection">
+                            <label htmlFor="from">
+                                Soll
+                            </label>
+                            <select value={from} name="from" onChange={handleFromChange}>
                                 {accounts?.map(account => createOption(account.id))}
                             </select>
-                        </label>
+                        </span>
 
-                        <Image src={arrow} alt="to" />
+                        <Image src={arrowDark} alt="to" />
 
-                        <label>
-                            Haben
-                            <select value={to} onChange={handleToChange}>
+                        <span className="selection">
+                            <label htmlFor="to">
+                                Haben
+                            </label>
+                            <select value={to} name="to" onChange={handleToChange}>
                                 {accounts?.map(account => createOption(account.id))}
                             </select>
-                        </label>
+                        </span>
                     </span>
 
-                    <input type="date" value={date} onChange={handleDateChange}></input>
+                    <label htmlFor="date">Datum</label>
 
-                    <button type="submit">Speichern</button>
-                    <button className="abort" onClick={closeCallback}>Abbrechen</button>
+                    <input type="date" name="date" value={date} onChange={handleDateChange}></input>
+
+                    <span className="buttons">
+                        <button type="submit" className="primary">Speichern</button>
+                        <button className="abort" onClick={closeCallback}>Abbrechen</button>
+                    </span>
                 </form>
             </div>
         </div>
