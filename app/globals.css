@@ -189,7 +189,7 @@ input[type=number] {
 
 .transaction-info label {
     font-weight: 500;
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 
 .transaction-info input {
@@ -205,4 +205,83 @@ input[type=number] {
 
 .transaction-info button {
     margin-top: 20vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.transactions-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 8px;
+}
+
+.transaction-widget {
+    display: flex;
+}
+
+.transaction-box {
+    border-radius: 8px;
+    border: 1px solid #EBEBEB;
+    padding: 8px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    color: #707070;
+    font-weight: 300;
+    gap: 8px;
+}
+
+.transaction-box .top-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.transaction-box .top-line .transaction-details {
+    display: flex;
+    align-items: center;
+}
+
+.transaction-box .amount {
+    border-radius: 4px;
+    border: 1px solid #0B8400;
+    color: #0B8400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1px 4px;
+    font-weight: 300;
+    margin-right: 12px;
+}
+
+.transaction-box .account {
+    border-radius: 4px;
+    border: 1px solid #BFBFBF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1px 4px;
+    color:#0066FF;
+}
+
+.no-note {
+    color: #BFBFBF;
+}
+
+.transaction-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-left: 8px;
+}
+
+.transaction-actions img {
+    height: 24px;
+    width: 24px;
 }

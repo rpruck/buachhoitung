@@ -17,14 +17,16 @@ export default function Transactions() {
         <>
             <div className="header">
                 <h1>Transaktionen</h1>
-                <Image src={upload} alt="export transactions" onClick={() => {return}} />
+                <Image src={upload} alt="export transactions" onClick={() => { return }} />
             </div>
 
-            {transactions ?
-                (transactions.map(transaction => <TransactionWidget transaction={transaction} key={transaction.id} />))
-                :
-                (<span>Loading Transactions</span>)
-            }
+            <div className="transactions-list">
+                {transactions ?
+                    (transactions.map(transaction => <TransactionWidget transaction={transaction} key={transaction.id} />))
+                    :
+                    (<span>Loading Transactions</span>)
+                }
+            </div>
         </>
     )
 }
