@@ -4,12 +4,14 @@ import Image from "next/image"
 import upload from "../../public/upload.svg"
 import TransactionWidget from "./transactionWidget"
 import search from "../../public/search.svg"
+import ExportTransactions from "./exportTransactions"
 
 export default function Transactions() {
     const [transactions, setTransactions] = useState<transaction[] | null>(null)
     const [query, setQuery] = useState<string>("")
     const [dateOrder, setDateOrder] = useState<string>("new")
     const [syncFilter, setSyncFilter] = useState<string>("none")
+    const [showExportModal, setShowExportModal] = useState<boolean>(false)
 
     useEffect(() => {
         getAllTransactions().then((res) => {
@@ -85,17 +87,17 @@ export default function Transactions() {
     function getDateSort() {
         switch (dateOrder) {
             case "none": {
-                return () => 0 
+                return () => 0
             }
             case "new": {
-                return (t1: transaction, t2:transaction) => {
+                return (t1: transaction, t2: transaction) => {
                     if (t1.date < t2.date) return 1
                     if (t1.date > t2.date) return -1
                     return 0
                 }
             }
             case "old": {
-                return (t1: transaction, t2:transaction) => {
+                return (t1: transaction, t2: transaction) => {
                     if (t1.date > t2.date) return 1
                     if (t1.date < t2.date) return -1
                     return 0
@@ -104,11 +106,19 @@ export default function Transactions() {
         }
     }
 
+    function openExportModal() {
+        setShowExportModal(true)
+    }
+
+    function closeExportModal() {
+        setShowExportModal(false)
+    }
+
     return (
         <>
             <div className="header">
                 <h1>Transaktionen</h1>
-                <Image src={upload} alt="export transactions" onClick={() => { return }} />
+                <Image src={upload} alt="export transactions" onClick={openExportModal} />
             </div>
 
             <div className="filter-wrapper">
@@ -136,6 +146,11 @@ export default function Transactions() {
                     (<span>Loading Transactions</span>)
                 }
             </div>
+
+            {showExportModal ?
+                (<ExportTransactions transactions={transactions!} closeCallback={closeExportModal} />)
+                :
+                (<></>)}
         </>
     )
 }
