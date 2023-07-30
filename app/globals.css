@@ -406,6 +406,23 @@ input[type=number] {
     margin-top: 40px;
 }
 
+.checked-button {
+    display: inline-flex;
+    padding: 8px 12px 8px 15px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background: #d08000;
+    box-shadow: 0px 4px 12px 0px rgba(208, 0, 0, 0.12); 
+    color: white;
+    font-size: 16px; 
+    margin-top: 8px;
+}
+
+.checked-button.synced {
+    background: #058900; 
+}
+
 .abort {
     display: inline-flex;
     padding: 8px 12px 8px 15px;

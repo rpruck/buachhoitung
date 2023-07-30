@@ -10,6 +10,7 @@ export default function EditTransaction({ transaction, closeCallback }: { transa
     const [to, setTo] = useState(transaction.to)
     const [date, setDate] = useState(transaction.date)
     const [accounts, setAccounts] = useState<account[] | null>(null)
+    const [synced, setSynced] = useState<boolean>(transaction.synced)
 
     function handleAmountChange(event) {
         setAmount(event.target.value)
@@ -31,6 +32,10 @@ export default function EditTransaction({ transaction, closeCallback }: { transa
         setDate(event.target.value)
     }
 
+    function handleSyncedChange(event) {
+        setSynced(!synced)
+    }
+
     function handleUpdateTransaction(event) {
         event.preventDefault()
         const update: transaction = {
@@ -40,7 +45,7 @@ export default function EditTransaction({ transaction, closeCallback }: { transa
             to: to,
             note: note,
             date: date,
-            synced: transaction.synced
+            synced: synced
         }
         updateTransaction(update)
         closeCallback()
@@ -99,6 +104,10 @@ export default function EditTransaction({ transaction, closeCallback }: { transa
                     <label htmlFor="date">Datum</label>
 
                     <input type="date" name="date" value={date} onChange={handleDateChange}></input>
+
+                    <div className={`checked-button ${synced ? "synced" : ""}`} onClick={handleSyncedChange}>
+                        Status: {synced ? "Synchronisiert" : "Nicht synchronisiert"}
+                    </div>
 
                     <span className="buttons">
                         <button type="submit" className="primary">Speichern</button>
