@@ -10,8 +10,8 @@ export default function ConfirmationModal({ actionCallback, closeCallback, text 
         }
 
         return (
-            <div className="fill-screen" onClick={handleAbort}>
-                <div className="modal">
+            <div className="fill-screen confirmation" onClick={handleAbort}>
+                <div className="modal confirmation">
                     <span className="modal-text">{text}</span>
                     <span className="modal-actions">
                         <button className="primary" onClick={handleAccept}>Ja</button>

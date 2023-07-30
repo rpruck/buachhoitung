@@ -29,10 +29,10 @@ export function setupDB() {
         request.onupgradeneeded = (event) => {
             const db = request.result
             const accountStore = db.createObjectStore("accounts", { keyPath: "id" })
-            accountStore.createIndex("from", "from", {unique: false})
-            accountStore.createIndex("to", "to", {unique: false})
-            accountStore.createIndex("date", "date", {unique: false})
-            accountStore.createIndex("synced", "synced", {unique: false})
+            accountStore.createIndex("from", "from", { unique: false })
+            accountStore.createIndex("to", "to", { unique: false })
+            accountStore.createIndex("date", "date", { unique: false })
+            accountStore.createIndex("synced", "synced", { unique: false })
 
             accountStore.put({ id: "000", name: "Default" })
 
@@ -77,7 +77,7 @@ export function addTransaction(transaction: transaction) {
                     resolve(event.target.result)
                 }
         }
-    }) 
+    })
 }
 
 export function addAccount(account: account) {
@@ -93,7 +93,7 @@ export function addAccount(account: account) {
                     resolve(event.target.result)
                 }
         }
-    }) 
+    })
 }
 
 export function deleteAccount(account: account) {
@@ -157,7 +157,7 @@ export function deleteTransaction(transaction: transaction) {
                     resolve(event.target.result)
                 }
         }
-    }) 
+    })
 }
 
 export function updateTransaction(transaction: transaction) {
@@ -172,6 +172,61 @@ export function updateTransaction(transaction: transaction) {
                 .put(transaction).onsuccess = (event) => {
                     resolve(event.target.result)
                 }
+        }
+    })
+}
+
+export function markAllTransactionsSynced() {
+    return new Promise((resolve) => {
+        let request = indexedDB.open(DB_NAME, VERSION)
+
+        request.onsuccess = () => {
+            const db = request.result
+            db
+                .transaction("transactions", "readwrite")
+                .objectStore("transactions")
+                .openCursor().onsuccess = (event) => {
+                    const cursor = event.target.result
+                    if (cursor) {
+                        if (!cursor.value.synced) {
+                            const updateTransaction = cursor.value
+                            updateTransaction.synced = true
+
+                            const request = cursor.update(updateTransaction)
+                            request.onsuccess = () => {
+                                return
+                            }
+                        }
+                        cursor.continue()
+                    }
+                }
+                resolve(true)
+        }
+    })
+}
+
+export function deleteAllSyncedTransactions() {
+    return new Promise((resolve) => {
+        let request = indexedDB.open(DB_NAME, VERSION)
+
+        request.onsuccess = () => {
+            const db = request.result
+            db
+                .transaction("transactions", "readwrite")
+                .objectStore("transactions")
+                .openCursor().onsuccess = (event) => {
+                    const cursor = event.target.result
+                    if (cursor) {
+                        if (cursor.value.synced) {
+                            const request = cursor.delete()
+                            request.onsuccess = () => {
+                                return
+                            }
+                        }
+                        cursor.continue()
+                    }
+                }
+                resolve(true)
         }
     })
 }
