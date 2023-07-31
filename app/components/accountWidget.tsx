@@ -7,7 +7,7 @@ import Image from "next/image"
 import ConfirmationModal from "./confirmationModal"
 import EditAccount from "./editAccount"
 
-export default function AccountWidget({ account }: { account: account }) {
+export default function AccountWidget({ account, updateAccountList }: { account: account, updateAccountList: () => void }) {
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
     const [showEditModal, setShowEditModal] = useState<boolean>(false)
 
@@ -17,6 +17,7 @@ export default function AccountWidget({ account }: { account: account }) {
 
     function closeDeleteModal() {
         setShowDeleteModal(false)
+        updateAccountList()
     }
 
     function deleteSelf() {
@@ -29,6 +30,7 @@ export default function AccountWidget({ account }: { account: account }) {
 
     function closeEditModal() {
         setShowEditModal(false)
+        updateAccountList()
     }
 
     return (

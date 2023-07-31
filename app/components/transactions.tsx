@@ -17,7 +17,13 @@ export default function Transactions() {
         getAllTransactions().then((res) => {
             setTransactions(res)
         })
-    }, [transactions])
+    }, [])
+
+    function updateTransactions() {
+        getAllTransactions().then((res) => {
+            setTransactions(res)
+        })
+    }
 
     function handleQueryChange(event: any) {
         setQuery(event.target.value)
@@ -112,6 +118,7 @@ export default function Transactions() {
 
     function closeExportModal() {
         setShowExportModal(false)
+        updateTransactions()
     }
 
     return (
@@ -141,7 +148,7 @@ export default function Transactions() {
                         .filter(containsQuery)
                         .filter(getSyncFilter())
                         .sort(getDateSort())
-                        .map(transaction => <TransactionWidget transaction={transaction} key={transaction.id} />))
+                        .map(transaction => <TransactionWidget transaction={transaction} key={transaction.id} updateTransactionList={updateTransactions}/>))
                     :
                     (<span>Loading Transactions</span>)
                 }

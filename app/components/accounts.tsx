@@ -15,13 +15,20 @@ export default function Accounts() {
 
     function closeModal() {
         setNewAccountModal(false)
+        updateAccounts()
     }
 
     useEffect(() => {
         getAllAccounts().then((res) => {
             setAccounts(res)
         })
-    }, [accounts])
+    }, [])
+
+    function updateAccounts() {
+        getAllAccounts().then((res) => {
+            setAccounts(res)
+        })
+    }
 
     return (
         <>
@@ -32,7 +39,7 @@ export default function Accounts() {
 
             <div className="accounts">
                 {accounts ?
-                    (accounts.map(account => <AccountWidget account={account} key={account.id} />))
+                    (accounts.map(account => <AccountWidget account={account} key={account.id} updateAccountList={updateAccounts} />))
                     :
                     (<span>Loading</span>)
                 }

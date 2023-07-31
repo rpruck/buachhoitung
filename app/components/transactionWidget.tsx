@@ -7,7 +7,7 @@ import edit from "../../public/edit.svg"
 import trash from "../../public/trash.svg"
 import arrowDark from "../../public/arrow-dark.svg"
 
-export default function TransactionWidget({ transaction }: { transaction: transaction }) {
+export default function TransactionWidget({ transaction, updateTransactionList }: { transaction: transaction, updateTransactionList: () => void }) {
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
     const [showEditModal, setShowEditModal] = useState<boolean>(false)
 
@@ -22,6 +22,7 @@ export default function TransactionWidget({ transaction }: { transaction: transa
 
     function closeDeleteModal() {
         setShowDeleteModal(false)
+        updateTransactionList()
     }
 
     function deleteSelf() {
@@ -34,6 +35,7 @@ export default function TransactionWidget({ transaction }: { transaction: transa
 
     function closeEditModal() {
         setShowEditModal(false)
+        updateTransactionList()
     }
 
     function formatAmount(amount: number) {
