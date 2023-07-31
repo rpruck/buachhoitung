@@ -11,7 +11,7 @@ import refresh from "../../public/refresh.svg"
 function TransactionHeader({ amount, from, to }: { amount: number | null, from: string | null, to: string | null }) {
     function formatAmount(amount: number) {
         if (!amount) return 0
-        return Number.parseFloat(amount).toFixed(2).toString().replace(".", ",")
+        return Number.parseFloat(amount.toString()).toFixed(2).toString().replace(".", ",")
     }
 
     return (

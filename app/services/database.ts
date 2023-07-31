@@ -21,7 +21,7 @@ export function setupDB() {
     return new Promise((resolve) => {
         let request = indexedDB.open(DB_NAME, VERSION)
 
-        request.onerror = (event) => {
+        request.onerror = (event: any) => {
             console.error(`Database error: ${event.target?.errorCode}`)
             resolve(false)
         }
@@ -57,7 +57,7 @@ export function getAllAccounts(): Promise<Array<account>> {
             db
                 .transaction("accounts")
                 .objectStore("accounts")
-                .getAll().onsuccess = (event) => {
+                .getAll().onsuccess = (event: any) => {
                     resolve(event.target.result)
                 }
         }
@@ -73,7 +73,7 @@ export function addTransaction(transaction: transaction) {
             db
                 .transaction("transactions", "readwrite")
                 .objectStore("transactions")
-                .add(transaction).onsuccess = (event) => {
+                .add(transaction).onsuccess = (event: any) => {
                     resolve(event.target.result)
                 }
         }
@@ -89,7 +89,7 @@ export function addAccount(account: account) {
             db
                 .transaction("accounts", "readwrite")
                 .objectStore("accounts")
-                .add(account).onsuccess = (event) => {
+                .add(account).onsuccess = (event: any) => {
                     resolve(event.target.result)
                 }
         }
@@ -105,7 +105,7 @@ export function deleteAccount(account: account) {
             db
                 .transaction("accounts", "readwrite")
                 .objectStore("accounts")
-                .delete(account.id).onsuccess = (event) => {
+                .delete(account.id).onsuccess = (event: any) => {
                     resolve(event.target.result)
                 }
         }
@@ -121,7 +121,7 @@ export function updateAccount(account: account) {
             db
                 .transaction("accounts", "readwrite")
                 .objectStore("accounts")
-                .put(account).onsuccess = (event) => {
+                .put(account).onsuccess = (event: any) => {
                     resolve(event.target.result)
                 }
         }
@@ -137,7 +137,7 @@ export function getAllTransactions(): Promise<Array<transaction>> {
             db
                 .transaction("transactions")
                 .objectStore("transactions")
-                .getAll().onsuccess = (event) => {
+                .getAll().onsuccess = (event: any) => {
                     resolve(event.target.result)
                 }
         }
@@ -153,7 +153,7 @@ export function deleteTransaction(transaction: transaction) {
             db
                 .transaction("transactions", "readwrite")
                 .objectStore("transactions")
-                .delete(transaction.id!).onsuccess = (event) => {
+                .delete(transaction.id!).onsuccess = (event: any) => {
                     resolve(event.target.result)
                 }
         }
@@ -169,7 +169,7 @@ export function updateTransaction(transaction: transaction) {
             db
                 .transaction("transactions", "readwrite")
                 .objectStore("transactions")
-                .put(transaction).onsuccess = (event) => {
+                .put(transaction).onsuccess = (event: any) => {
                     resolve(event.target.result)
                 }
         }
@@ -185,7 +185,7 @@ export function markAllTransactionsSynced() {
             db
                 .transaction("transactions", "readwrite")
                 .objectStore("transactions")
-                .openCursor().onsuccess = (event) => {
+                .openCursor().onsuccess = (event: any) => {
                     const cursor = event.target.result
                     if (cursor) {
                         if (!cursor.value.synced) {
@@ -214,7 +214,7 @@ export function deleteAllSyncedTransactions() {
             db
                 .transaction("transactions", "readwrite")
                 .objectStore("transactions")
-                .openCursor().onsuccess = (event) => {
+                .openCursor().onsuccess = (event: any) => {
                     const cursor = event.target.result
                     if (cursor) {
                         if (cursor.value.synced) {
