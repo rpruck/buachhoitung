@@ -83,7 +83,12 @@ export default function ExportTransactions({ transactions, closeCallback }: { tr
     function EmailExport({ forUnsyncedTransactions }: { forUnsyncedTransactions: boolean }) {
         const transactionsToExport = forUnsyncedTransactions ? unsyncedTransactions : transactions
 
-        const shareData = createEmailForShare(transactionsToExport);
+        const htmlFile = createEmailForShare(transactionsToExport);
+        const shareData = {
+            files: [htmlFile],
+            title: "Buachhoitung Export",
+            text: "Buachhoitung Export als HTML Datei"
+        }
 
         const isSharingPossible = navigator.canShare && navigator.canShare(shareData)
 
