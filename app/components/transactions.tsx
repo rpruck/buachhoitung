@@ -148,7 +148,11 @@ export default function Transactions() {
             </div>
 
             {showExportModal ?
-                (<ExportTransactions transactions={transactions!} closeCallback={closeExportModal} />)
+                (<ExportTransactions transactions={transactions!.sort((t1: transaction, t2: transaction) => {
+                    if (t1.date > t2.date) return 1
+                    if (t1.date < t2.date) return -1
+                    return 0
+                })} closeCallback={closeExportModal} />)
                 :
                 (<></>)}
         </>
