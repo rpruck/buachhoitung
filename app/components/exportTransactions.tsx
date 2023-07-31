@@ -1,11 +1,10 @@
-import { createEmail, createCopyContent, createCsvForDownload, createCsvForShare } from "../services/export"
+import { createEmailForDownload, createCopyContent, createCsvForDownload, createCsvForShare, createEmailForShare } from "../services/export"
 import { transaction, markAllTransactionsSynced, deleteAllSyncedTransactions } from "../services/database"
 import { useState } from "react"
 import Image from "next/image"
 import ConfirmationModal from "./confirmationModal"
 import clipboard from "../../public/clipboard-white.svg"
 import mail from "../../public/envelope-white.svg"
-import Link from "next/link"
 
 export default function ExportTransactions({ transactions, closeCallback }: { transactions: transaction[], closeCallback: () => void }) {
     const [showDeleteAllModal, setShowDeleteAllModal] = useState<boolean>(false)
@@ -24,7 +23,7 @@ export default function ExportTransactions({ transactions, closeCallback }: { tr
 
     function createEmailFileAllTransactions() {
         localStorage.setItem("userEmail", userEmail!)
-        return createEmail(transactions)
+        return createEmailForDownload(transactions)
     }
 
     function copyToClipboardAllTransactions() {
@@ -33,7 +32,7 @@ export default function ExportTransactions({ transactions, closeCallback }: { tr
 
     function createEmailFileUnsyncedTransactions() {
         localStorage.setItem("userEmail", userEmail!)
-        return createEmail(unsyncedTransactions)
+        return createEmailForDownload(unsyncedTransactions)
     }
 
     function copyToClipboardUnsyncedTransactions() {
@@ -81,6 +80,25 @@ export default function ExportTransactions({ transactions, closeCallback }: { tr
         }
     }
 
+    function EmailExport({ forUnsyncedTransactions }: { forUnsyncedTransactions: boolean }) {
+        const transactionsToExport = forUnsyncedTransactions ? unsyncedTransactions : transactions
+
+        const shareData = createEmailForShare(transactionsToExport);
+
+        const isSharingPossible = navigator.canShare && navigator.canShare(shareData)
+
+        if (isSharingPossible) {
+            const share = () => navigator.share(shareData)
+            return (
+                <button className="export-action email" onClick={share}><Image src={mail} alt="Email" /></button>
+            )
+        } else {
+            return (
+                <a className="export-action email" download={"export.eml"} href={forUnsyncedTransactions ? createEmailFileUnsyncedTransactions() : createEmailFileAllTransactions()}><Image src={mail} alt="Email" /></a>
+            )
+        }
+    }
+
     return (
         <div className="fill-screen" onClick={handleOutsideTap}>
             <div className="modal">
@@ -91,14 +109,14 @@ export default function ExportTransactions({ transactions, closeCallback }: { tr
 
                     <div className="export-action-label">Noch nicht synchronisierte</div>
                     <div className="export-action-wrapper">
-                        <a className="export-action email" download="message.eml" href={createEmailFileUnsyncedTransactions()}><Image src={mail} alt="Email" /></a>
+                        <EmailExport forUnsyncedTransactions={true} />
                         <button className="export-action clipboard" onClick={copyToClipboardUnsyncedTransactions}><Image src={clipboard} alt="clipboard" /></button>
                         <CsvExport forUnsyncedTransactions={true} />
                     </div>
 
                     <div className="export-action-label">Alle</div>
                     <div className="export-action-wrapper">
-                        <a className="export-action email" download="message.eml" href={createEmailFileAllTransactions()}><Image src={mail} alt="Email" /></a>
+                        <EmailExport forUnsyncedTransactions={false} />
                         <button className="export-action clipboard" onClick={copyToClipboardAllTransactions}><Image src={clipboard} alt="clipboard" /></button>
                         <CsvExport forUnsyncedTransactions={false} />
                     </div>

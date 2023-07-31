@@ -45,7 +45,7 @@ export function createCopyContent(transactions: transaction[]) {
     return makeTransactionList(transactions)
 }
 
-export function createEmail(transactions: transaction[]) {
+export function createEmailForDownload(transactions: transaction[]) {
     const now = new Date(Date.now())
     const today = now.toISOString().split('T')[0]
 
@@ -65,6 +65,23 @@ ${makeTransactionList(transactions, "email")}
     const textFile = window.URL.createObjectURL(data)
 
     return textFile
+}
+
+export function createEmailForShare(transactions: transaction[]) {
+    const now = new Date(Date.now())
+    const today = now.toISOString().split('T')[0]
+
+    let content = ""
+    for (let transaction of transactions) {
+        content = content + formatTransaction(transaction)
+    }
+
+    const shareData = {
+        title: `Buachhoitung Export vom ${formatDate(today)}`,
+        text: content
+    }
+
+    return shareData 
 }
 
 export function createCsvForDownload(transactions: transaction[]) {
