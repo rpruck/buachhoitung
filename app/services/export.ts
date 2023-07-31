@@ -71,10 +71,7 @@ export function createEmailForShare(transactions: transaction[]) {
     const now = new Date(Date.now())
     const today = now.toISOString().split('T')[0]
 
-    let content = ""
-    for (let transaction of transactions) {
-        content = content + formatTransaction(transaction)
-    }
+    let content = makeTransactionList(transactions, "email")
 
     const shareData = {
         title: `Buachhoitung Export vom ${formatDate(today)}`,
