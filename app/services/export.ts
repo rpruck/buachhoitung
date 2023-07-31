@@ -66,3 +66,32 @@ ${makeTransactionList(transactions, "email")}
 
     return textFile
 }
+
+export function createCsvForDownload(transactions: transaction[]) {
+    const now = new Date(Date.now())
+    const today = now.toISOString().split('T')[0]
+
+    let content = ""
+    for (let transaction of transactions) {
+        content = content + formatTransactionCsv(transaction)
+    }
+
+    const data = new Blob([content], {type: "text/plain"}) 
+    const textFile = window.URL.createObjectURL(data)
+
+    return [textFile, formatDate(today)]
+}
+
+export function createCsvForShare(transactions: transaction[]) {
+    const now = new Date(Date.now())
+    const today = now.toISOString().split('T')[0]
+
+    let content = ""
+    for (let transaction of transactions) {
+        content = content + formatTransactionCsv(transaction)
+    }
+
+    const file = new File([content], `Buachhoitung_Export_${formatDate(today)}.csv`, {type: "text/plain"})
+
+    return file
+}

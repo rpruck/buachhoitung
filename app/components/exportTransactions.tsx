@@ -1,20 +1,29 @@
-import { createEmail, createCopyContent } from "../services/export"
+import { createEmail, createCopyContent, createCsvForDownload, createCsvForShare } from "../services/export"
 import { transaction, markAllTransactionsSynced, deleteAllSyncedTransactions } from "../services/database"
 import { useState } from "react"
+import Image from "next/image"
 import ConfirmationModal from "./confirmationModal"
+import clipboard from "../../public/clipboard-white.svg"
+import mail from "../../public/envelope-white.svg"
+import Link from "next/link"
 
 export default function ExportTransactions({ transactions, closeCallback }: { transactions: transaction[], closeCallback: () => void }) {
     const [showDeleteAllModal, setShowDeleteAllModal] = useState<boolean>(false)
     const [showMarkSyncedModal, setShowMarkSyncedModal] = useState<boolean>(false)
+    const [userEmail, setUserEmail] = useState(localStorage.getItem("userEmail"))
 
     function handleOutsideTap(event) {
         if (!event.target.closest(".modal")) closeCallback()
     }
 
+    function handleUserEmailChange(event) {
+        setUserEmail(event.target.value)
+    }
+
     const unsyncedTransactions = transactions.filter(t => !t.synced)
 
     function createEmailFileAllTransactions() {
-        localStorage.setItem("userEmail", "rapru.rp@gmail.com")
+        localStorage.setItem("userEmail", userEmail!)
         return createEmail(transactions)
     }
 
@@ -23,7 +32,7 @@ export default function ExportTransactions({ transactions, closeCallback }: { tr
     }
 
     function createEmailFileUnsyncedTransactions() {
-        localStorage.setItem("userEmail", "rapru.rp@gmail.com")
+        localStorage.setItem("userEmail", userEmail!)
         return createEmail(unsyncedTransactions)
     }
 
@@ -47,18 +56,56 @@ export default function ExportTransactions({ transactions, closeCallback }: { tr
         setShowDeleteAllModal(false)
     }
 
+    function CsvExport({ forUnsyncedTransactions }: { forUnsyncedTransactions: boolean }) {
+        const transactionsToExport = forUnsyncedTransactions ? unsyncedTransactions : transactions
+
+        const csvFile = createCsvForShare(transactionsToExport);
+        const shareData = {
+            files: [csvFile],
+            title: "CSV Export",
+            text: "Buachhoitung Export als CSV Datei"
+        }
+
+        const isSharingPossible = navigator.canShare && navigator.canShare(shareData)
+
+        if (isSharingPossible) {
+            const share = () => navigator.share(shareData)
+            return (
+                <button className="export-action csv" onClick={share}>.csv</button>
+            )
+        } else {
+            const [textFile, date] = createCsvForDownload(transactionsToExport)
+            return (
+                <a className="export-action csv" download={`Buachhoitung_Export_${date}.csv`} href={textFile}>.csv</a>
+            )
+        }
+    }
+
     return (
         <div className="fill-screen" onClick={handleOutsideTap}>
             <div className="modal">
                 <h1>Transaktionen exportieren</h1>
                 <div className="export-options">
-                    <a className="export-action" download="message.eml" href={createEmailFileAllTransactions()}>Alle downloaden</a>
-                    <button className="export-action" onClick={copyToClipboardAllTransactions}>Alle in Zwischenablage kopieren</button>
-                    <a className="export-action" download="message.eml" href={createEmailFileUnsyncedTransactions()}>Noch nicht synchronisierte downloaden</a>
-                    <button className="export-action" onClick={copyToClipboardUnsyncedTransactions}>Noch nicht synchronisierte in Zwischenablage kopieren</button>
+                    <span className="email-label">Email zum Exportieren</span>
+                    <input name="email" type="text" className="email-input" value={userEmail!} onChange={handleUserEmailChange}></input>
+
+                    <div className="export-action-label">Noch nicht synchronisierte</div>
+                    <div className="export-action-wrapper">
+                        <a className="export-action email" download="message.eml" href={createEmailFileUnsyncedTransactions()}><Image src={mail} alt="Email" /></a>
+                        <button className="export-action clipboard" onClick={copyToClipboardUnsyncedTransactions}><Image src={clipboard} alt="clipboard" /></button>
+                        <CsvExport forUnsyncedTransactions={true} />
+                    </div>
+
+                    <div className="export-action-label">Alle</div>
+                    <div className="export-action-wrapper">
+                        <a className="export-action email" download="message.eml" href={createEmailFileAllTransactions()}><Image src={mail} alt="Email" /></a>
+                        <button className="export-action clipboard" onClick={copyToClipboardAllTransactions}><Image src={clipboard} alt="clipboard" /></button>
+                        <CsvExport forUnsyncedTransactions={false} />
+                    </div>
+
                     <button className="data-action" onClick={openMarkSyncedModal}>Alle Transaktionen als synchronisiert markieren</button>
                     <button className="data-action" onClick={openDeleteAllModal}>Alle synchronisierten Transatkionen löschen</button>
-                    <button className="abort" onClick={closeCallback}>Abbrechen</button>
+                    <button className="abort" onClick={closeCallback}>Schließen</button>
                 </div>
             </div>
 

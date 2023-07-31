@@ -231,6 +231,7 @@ input[type=number] {
 
 .filter-wrapper .query-wrapper input {
     width: 100%;
+    margin-right: 5px;
 }
 
 .filter-wrapper button {
@@ -525,15 +526,41 @@ input[type=number] {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     margin-top: 20px;
 }
 
-.export-action, .data-action{
+.email-label, .export-action-label {
+    align-self: baseline;
+    margin-left: 8px;
+    color:#707070
+}
+
+.email-input {
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #BFBFBF;
+    padding: 5px;
+    background-color: #f6f6f6; 
+    padding: 6px;
+    width: 90%;
+}
+
+.export-action-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 12px;
+    border: 1px solid #BFBFBF;
+    border-radius: 8px; 
+    padding: 8px;
+}
+
+.export-action, .data-action {
     text-decoration: none;
     color: black;
     display: inline-flex;
-    padding: 8px 12px 8px 15px;
+    padding: 12px;
     justify-content: center;
     align-items: center;
     border-style: none;
@@ -543,6 +570,26 @@ input[type=number] {
     color: white;
     font-size: 16px;
     text-align: center;
+    min-height: 32px;
+    min-width: 32px;
+}
+
+.export-action.email {
+    background: #002c6d;
+}
+
+.export-action.csv {
+    background: #056d00; 
+}
+
+.export-action img {
+    margin: 0;
+    height: 32px;
+    width: 32px;
+}
+
+.data-action:first-of-type {
+    margin-top: 8px;
 }
 
 .data-action {
@@ -550,5 +597,5 @@ input[type=number] {
 }
 
 .export-options .abort {
-    margin-top: 20px;
+    margin-top: 8px;
 }
