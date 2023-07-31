@@ -71,14 +71,15 @@ export function createEmailForShare(transactions: transaction[]) {
     const now = new Date(Date.now())
     const today = now.toISOString().split('T')[0]
 
-    let content = makeTransactionList(transactions, "email")
+    const content = `<html>
+<body>
+${makeTransactionList(transactions, "email")}
+</body>
+<html>
+`
+    const file = new File([content], `Buachhoitung_Export_${formatDate(today)}.html`, {type: "text/html"})
 
-    const shareData = {
-        title: `Buachhoitung Export vom ${formatDate(today)}`,
-        text: content
-    }
-
-    return shareData 
+    return file
 }
 
 export function createCsvForDownload(transactions: transaction[]) {
@@ -90,7 +91,7 @@ export function createCsvForDownload(transactions: transaction[]) {
         content = content + formatTransactionCsv(transaction)
     }
 
-    const data = new Blob([content], {type: "text/plain"}) 
+    const data = new Blob([content], {type: "text/csv"}) 
     const textFile = window.URL.createObjectURL(data)
 
     return [textFile, formatDate(today)]
@@ -105,7 +106,7 @@ export function createCsvForShare(transactions: transaction[]) {
         content = content + formatTransactionCsv(transaction)
     }
 
-    const file = new File([content], `Buachhoitung_Export_${formatDate(today)}.csv`, {type: "text/plain"})
+    const file = new File([content], `Buachhoitung_Export_${formatDate(today)}.csv`, {type: "text/csv"})
 
     return file
 }
