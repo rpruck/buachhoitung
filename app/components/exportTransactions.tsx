@@ -106,7 +106,7 @@ export default function ExportTransactions({ transactions, closeCallback }: { tr
 
     return (
         <div className="fill-screen" onClick={handleOutsideTap}>
-            <div className="modal">
+            <div className="modal transaction-modal">
                 <h1>Transaktionen exportieren</h1>
                 <div className="export-options">
                     <span className="email-label">Email zum Exportieren</span>

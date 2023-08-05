@@ -521,6 +521,10 @@ input[type=number] {
     padding: 2px;
 }
 
+.transaction-modal {
+    overflow: auto;
+}
+
 .export-options {
     display: flex;
     flex-direction: column;
