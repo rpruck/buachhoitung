@@ -470,6 +470,10 @@ input[type=number] {
     gap: 12px;
 }
 
+.modal-actions button {
+    width: 100px;
+}
+
 .accounts {
     display: flex;
     flex-flow: row wrap;
@@ -521,7 +525,7 @@ input[type=number] {
     padding: 2px;
 }
 
-.transaction-modal {
+.transaction-modal, .edit-transaction-modal {
     overflow: auto;
 }
 

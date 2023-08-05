@@ -67,7 +67,7 @@ export default function EditTransaction({ transaction, closeCallback }: { transa
 
     return (
         <div className="fill-screen" onClick={handleOutsideTap}>
-            <div className="modal">
+            <div className="modal edit-transaction-modal">
                 <h1>Transaktion bearbeiten</h1>
                 <form onSubmit={handleUpdateTransaction}>
                     <label htmlFor="edit-amount">
